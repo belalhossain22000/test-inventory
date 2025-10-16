@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Employee {
+  id        String       @id @default(auto()) @map("_id") @db.ObjectId
+  name      String       @unique
+  password String
+  salary    Float
+  role      EmployeeRole @default(EMPLOYEE)
+  image     String?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model Product {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  price     Float
+  category  String
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum EmployeeRole {
+  ADMIN
+  SUPER_ADMIN
+  EMPLOYEE
+}
