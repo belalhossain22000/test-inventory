@@ -10,6 +10,7 @@ const router = Router();
 // create employee
 router.post(
   "/",
+  auth(EmployeeRole.ADMIN, EmployeeRole.SUPER_ADMIN),
   validateRequest(EmployeeValidation.createEmployeeValidationSchema),
   employeeController.createEmployee
 );
@@ -17,19 +18,21 @@ router.post(
 // create admin
 router.post(
   "/admin",
+  auth(EmployeeRole.SUPER_ADMIN),
   validateRequest(EmployeeValidation.createEmployeeValidationSchema),
   employeeController.createAdmin
 );
 
 // get all employee
-router.get("/", employeeController.getAllEmployees);
+router.get("/",auth(), employeeController.getAllEmployees);
 
 // get single employee by id
-router.get("/:id", employeeController.getSingleEmployee);
+router.get("/:id",auth(), employeeController.getSingleEmployee);
 
 // update employee
 router.put(
   "/:id",
+  auth(),
   validateRequest(EmployeeValidation.updateEmployeeValidationSchema),
   employeeController.updateEmployee
 );
